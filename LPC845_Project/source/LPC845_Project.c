@@ -112,7 +112,12 @@ void TelitUsartGSM_IRQHandler(void){
 void UbloxNMEAParse(uint8_t* data){
 
 
+	if (*data++==0){
 
+
+
+
+	}
 
 
 }
