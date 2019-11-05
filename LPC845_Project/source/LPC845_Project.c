@@ -39,6 +39,7 @@
 #include "clock_config.h"
 #include "LPC845.h"
 #include "fsl_debug_console.h"
+#include "string.h"
 /* TODO: insert other include files here. */
 
 uint8_t bufferGPS[2048];
@@ -111,13 +112,6 @@ void TelitUsartGSM_IRQHandler(void){
 
 void UbloxNMEAParse(uint8_t* data){
 
-
-	if (*data++==0){
-
-
-
-
-	}
 
 
 }
