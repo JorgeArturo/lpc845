@@ -40,6 +40,7 @@
 #include "LPC845.h"
 #include "fsl_debug_console.h"
 #include "string.h"
+#include "gps_ublox.h"
 /* TODO: insert other include files here. */
 
 uint8_t bufferGPS[2048];
@@ -110,11 +111,6 @@ void TelitUsartGSM_IRQHandler(void){
 }
 
 
-void UbloxNMEAParse(uint8_t* data){
-
-
-
-}
 
 /*
  * @brief   Application entry point.
@@ -150,6 +146,7 @@ int main(void) {
     		LED_GREEN_TOGGLE();
     		PRINTF("%s",bufferGPS);
     		//CTIMER_Reset(CTIMER_1_PERIPHERAL);
+    		UbloxNMEAParse();
 
     		EnableIRQ(UBLOXUSARTGPS_USART_IRQN);
 
