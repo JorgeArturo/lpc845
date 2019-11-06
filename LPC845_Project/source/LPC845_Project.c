@@ -40,7 +40,6 @@
 #include "LPC845.h"
 #include "fsl_debug_console.h"
 #include "string.h"
-#include "gps_ublox.h"
 /* TODO: insert other include files here. */
 
 uint8_t bufferGPS[2048];
@@ -128,6 +127,8 @@ int main(void) {
     DisableIRQ(TELITUSARTGSM_USART_IRQN);
 
     PRINTF("Hello World\n");
+
+    Ublox_Initialize();
 
     LED_GREEN_INIT(0);
 
