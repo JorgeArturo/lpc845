@@ -40,11 +40,14 @@
 #include "LPC845.h"
 #include "fsl_debug_console.h"
 #include "string.h"
+#include "Support/gps_ublox.h"
 /* TODO: insert other include files here. */
 
-uint8_t bufferGPS[2048];
+uint8_t bufferGPS[1024];
 uint16_t gps_index = 0;
 uint8_t gps_search = 0;
+
+nmea gps_nmea;
 
 /* TODO: insert other definitions and declarations here. */
 
@@ -145,9 +148,10 @@ int main(void) {
 
     		gps_search = 0;
     		LED_GREEN_TOGGLE();
-    		PRINTF("%s",bufferGPS);
+
     		//CTIMER_Reset(CTIMER_1_PERIPHERAL);
-    		UbloxNMEAParse();
+    		UbloxNMEAParse(bufferGPS);
+    		PRINTF("id %s\r\nutc time %u\r\nlatitude %0.3f\r\nlatitude %0.3f\r\n",gps_nmea.gngga.id,gps_nmea.gngga.utc_time,gps_nmea.gngga.latitude,gps_nmea.gngga.longitude);
 
     		EnableIRQ(UBLOXUSARTGPS_USART_IRQN);
 
