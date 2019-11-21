@@ -11,7 +11,7 @@ typedef struct GPS_NMEA{
 		float latitude;
 		char n_s;
 		float longitude;
-		uint8_t e_w;
+		char e_w;
 		uint8_t fs;
 		uint8_t NoSV;
 		float hdop;
@@ -28,7 +28,8 @@ typedef struct GPS_NMEA{
 
 extern nmea gps_nmea;
 
-
+float GPS_GetLatitude(char* t);
+float GPS_GetLongitude(char* t);
 int GPS_CRC_Compute(char* r);
 char* GPS_Get_ID(char* r,char* c);
 /*

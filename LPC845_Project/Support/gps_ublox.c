@@ -1,5 +1,51 @@
 #include "gps_ublox.h"
 
+float GPS_GetLatitude(char* t){
+
+	char intr[2] = {0,0};
+	char flot[7] = {0,0,0,0,0,0,0};
+	uint8_t integrer;
+	float lat = 0.0;
+
+	strncpy(intr,t,2);
+	integrer = (uint8_t)atoi(intr);
+
+	*t++;
+	*t++;
+
+	strncpy(flot,t,7);
+
+	lat = (float)integrer + (float)(atof(flot)/60);
+
+
+	return lat;
+
+}
+
+float GPS_GetLongitude(char* t){
+
+	char intr[3] = {0,0,0};
+	char flot[7] = {0,0,0,0,0,0,0};
+	uint8_t integrer;
+	float lon = 0.0;
+
+	strncpy(intr,t,3);
+	integrer = (uint8_t)atoi(intr);
+
+	*t++;
+	*t++;
+	*t++;
+
+	strncpy(flot,t,7);
+
+	lon = (float)integrer + (float)(atof(flot) / 60);
+
+
+	return lon;
+
+
+}
+
 
 void GPS_Split_Parse(char* u,int c){
 
@@ -10,17 +56,24 @@ void GPS_Split_Parse(char* u,int c){
 
 	if(strcmp(tokken,"$GNGGA") == 0){
 
+		//$GNGGA,031254.000,2527.0889,N,10054.0255,W,1,05,7.4,1557.4,M,0.0,M,,*5C<CR><LF>
+
 		strncpy(gps_nmea.gngga.id,tokken,6);
 		tokken = strtok(NULL,_coma_);
 		gps_nmea.gngga.utc_time = atoi(tokken);
 		tokken = strtok(NULL,_coma_);
-		gps_nmea.gngga.latitude = atof(tokken);
+		gps_nmea.gngga.latitude = GPS_GetLatitude(tokken);
 		tokken = strtok(NULL,_coma_);
-		if(strncmp(tokken,"N",1) != 0) gps_nmea.gngga.latitude = -1*gps_nmea.gngga.latitude;
+		if(strncmp(tokken,"N",1) != 0) gps_nmea.gngga.latitude = -gps_nmea.gngga.latitude;
 		tokken = strtok(NULL,_coma_);
-		gps_nmea.gngga.longitude = atof(tokken);
+		gps_nmea.gngga.longitude = GPS_GetLongitude(tokken);
 		tokken = strtok(NULL,_coma_);
-		if(strncmp(tokken,"E",1) != 0) gps_nmea.gngga.longitude = -1*gps_nmea.gngga.longitude;
+		if(strncmp(tokken,"E",1) != 0) gps_nmea.gngga.longitude = -gps_nmea.gngga.longitude;
+		tokken = strtok(NULL,_coma_);
+		gps_nmea.gngga.fs = (uint8_t)atoi(tokken);
+		tokken = strtok(NULL,_coma_);
+		gps_nmea.gngga.NoSV = (uint8_t)atoi(tokken);
+
 
 	}
 
