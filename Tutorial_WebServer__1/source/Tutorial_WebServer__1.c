@@ -42,7 +42,7 @@
 #include <string.h>
 /* TODO: insert other include files here. */
 
-const char wp[] = {"<!DOCTYPEhtml>  <html>  <head>  <style>  table{  font-family:arial,sans-serif;  border-collapse:collapse;  width:100%;  }    td,th{  border:1pxsolid#dddddd;  text-align:left;  padding:8px;  }    tr:nth-child(even){  background-color:#dddddd;  }  </style>  </head>  <body>    <h2>HTMLTable</h2>    <table>  <tr>  <th>Company</th>  <th>Contact</th>  <th>Country</th>  </tr>  <tr>  <td>AlfredsFutterkiste</td>  <td>MariaAnders</td>  <td>Germany</td>  </tr>  <tr>  <td>CentrocomercialMoctezuma</td>  <td>FranciscoChang</td>  <td>Mexico</td>  </tr>  <tr>  <td>ErnstHandel</td>  <td>RolandMendel</td>  <td>Austria</td>  </tr>  <tr>  <td>IslandTrading</td>  <td>HelenBennett</td>  <td>UK</td>  </tr>  <tr>  <td>LaughingBacchusWinecellars</td>  <td>YoshiTannamuri</td>  <td>Canada</td>  </tr>  <tr>  <td>MagazziniAlimentariRiuniti</td>  <td>GiovanniRovelli</td>  <td>Italy</td>  </tr>  </table>    </body>  </html>\0"};
+const char wp[] = {"<!DOCTYPE html>  <html>  <head>  <style>  table {    font-family: arial, sans-serif;    border-collapse: collapse;    width: 100%;  }    td, th {    border: 1px solid #dddddd;    text-align: left;    padding: 8px;  }    tr:nth-child(even) {    background-color: #dddddd;  }  </style>  </head>  <body>    <h2>ESP8266 Tutorial</h2>    <table>    <tr>      <th>Temperatura</th>      <th>Grados</th>    </tr>    <tr>      <td>Ambiente</td>      <td>27°C</td>    </tr>    </table>    </body>  </html>\0"};
 
 
 unsigned int wp_len;
