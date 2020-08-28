@@ -1,0 +1,7 @@
+core_cm0plus.h:741:22:__NVIC_EnableIRQ	16	static
+core_cm0plus.h:850:22:__NVIC_SetPriority	24	static
+fsl_common.h:484:28:EnableIRQ	16	static
+fsl_usart.h:393:20:USART_EnableInterrupts	16	static
+peripherals.c:93:13:USART1_init	8	static
+peripherals.c:106:6:BOARD_InitPeripherals	8	static
+peripherals.c:115:6:BOARD_InitBootPeripherals	8	static
