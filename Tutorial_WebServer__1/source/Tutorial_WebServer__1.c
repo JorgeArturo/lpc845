@@ -282,7 +282,7 @@ int main(void) {
 
     PRINTF("Esp8266 WEBserver\n");
 
-    if(ESP8266_Init("TP-LINK_7456", "67320004") == 1)
+    if(ESP8266_Init("SSID", "PWD") == 1)
 
     	PRINTF("Connected\r\n");
 
