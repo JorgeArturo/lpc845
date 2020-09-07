@@ -32,3 +32,8 @@ https://www.espressif.com/sites/default/files/documentation/4a-esp8266_at_instru
 Los comandos de Inicializacion que se utiliza en el codigo principal del LPC845 son los siguientes:
 
 * AT+RST\r\n : Nos permite reiniciar el esp8266 sin necesidad de utilizar el pin fisico.
+* AT+ATE0\r\n : Elimina el eco de cada mensaje enviado
+* AT\r\n : Validamos que no tenga ECO y tambien que el sistema esta funcionando
+* AT+CWMODE_CUR=1\r\n : Pondemos en modo estacion para realizar la conexion a un router de WIFI.
+* AT+CWJAP_CUR="SSID","PWD"\r\n :Nos conectamos a la red WIFI que tenemos de nuestro codigo.
+
