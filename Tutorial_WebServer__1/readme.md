@@ -1,4 +1,4 @@
-# LPC845-BRK con Modulo8266
+# LPC845-BRK con Modulo ESP8266
 
 El microcontrolador LPC845 es una pequeña familia de la compañia de NXP, donde el procesador es un ARM CORTEX M0+ contiene varios perifericos de comunicacion tales como son:
 
