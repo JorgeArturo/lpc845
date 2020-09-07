@@ -24,7 +24,7 @@ Este modulo contiene un stack completo de TCP/IP y UDP, donde nos permitiriá re
 
 <a href="https://circuits4you.com/wp-content/uploads/2016/12/ESP-01-Pin-Out.png"><img src="https://circuits4you.com/wp-content/uploads/2016/12/ESP-01-Pin-Out.png" alt="ESP-01-Pin-Out.png" border="0"></a>
 
-El GPIO0 nos permite entrar en modo de actualizar el firmware del cual para ello se requiere que el pin este bajo (0 volts) cuando se realize un reset de poder o por el PIN de RESET.
+El GPIO0 nos permite entrar en modo de actualizar el firmware del cual se requiere que el pin este bajo (0 volts) cuando se realize un reset de poder o por el PIN de RESET.
 En nuestro caso vamos a utilizarlo para realizar un servidor web, donde la comunicacion sera por serial hacia el microcontrolador LPC845, para intercambiar informacion utilizaremos los comandos AT, del cual podemos encontrar informacion en la pagina oficial de ESPRESSIF.
 
 https://www.espressif.com/sites/default/files/documentation/4a-esp8266_at_instruction_set_en.pdf
