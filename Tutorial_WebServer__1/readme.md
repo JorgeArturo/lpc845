@@ -43,5 +43,5 @@ Los comandos de Inicializacion que se utiliza en el codigo principal del LPC845 
 
 Ahora bien, la pagina que vallamos a utilizar se encuentra almacenada en el lpc845 como un arreglo, cuando el cliente entra a la IP del servidor en algun navegador, se enviara la pagina como una respuesta.
 
-
+<img src="https://i.ibb.co/71K2SKz/servidor-web.jpg" alt="servidor-web" border="0">
 
