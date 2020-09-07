@@ -2,7 +2,7 @@
 
 El microcontrolador LPC845 es una pequeña familia de la compañia de NXP, donde el procesador es un ARM CORTEX M0+ contiene varios perifericos de comunicacion tales como son:
 
-<a href="https://www.nxp.com/assets/images/en/block-diagrams"><img src="https://www.nxp.com/assets/images/en/block-diagrams/LPC84x-MCU-FAMILY-BD.jpg" alt="LPC84x-MCU-FAMILY-BD" border="0"></a>
+<a href="https://www.nxp.com/assets/images/en/block-diagrams"><img src="https://www.nxp.com/assets/images/en/block-diagrams/LPC84x-MCU-FAMILY-BD.jpg" alt="LPC84x-MCU-FAMILY-BD" border="0" width="50%" height="50%"></a>
 
 Lo que podemos ver es que contiene cinco perifericos de tipo USART esto es muy bueno si se desea realizar varias comunicaciones con modulos seriales, por dar un ejemplo, utilizar un puerto USART para la comunicacion con un GPS, y utilizar otro USART para el GSM, por ultimo para conectar un ESP8266, sin la necesidad de simular pines seriales.
 
