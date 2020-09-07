@@ -45,7 +45,7 @@ Ahora bien, la pagina que vallamos a utilizar se encuentra almacenada en el lpc8
 
 <img src="https://i.ibb.co/71K2SKz/servidor-web.jpg" alt="servidor-web" border="0">
 
-Cuando el cliente presione un boton, por ejemplo el LED ON, enviara datos al servidor en nuestro caso un "/?LED=ON0", el codigo del lpc845 esta preparado para encontrar esta palabra y realizar una accion correspondiente, donde sera prender un led verde, de igualmanera si se presiona el boton de LED OFF, tendremos una respuesta de tipo "/?LED=OFF0" de igualmanera el codigp buscara este texto para apagar el led.
+Cuando el cliente presione un boton, por ejemplo el LED ON, enviara datos al servidor en nuestro caso un "/?LED=ON0", el codigo del lpc845 esta preparado para encontrar esta palabra y realizar una accion correspondiente, donde sera prender un led verde, de igualmanera si se presiona el boton de LED OFF, tendremos una respuesta de tipo "/?LED=OFF0" donde buscará este texto para apagar el led.
 
 La conexion entre el ESP8266 y el LPC845 es la siguiente:
 
