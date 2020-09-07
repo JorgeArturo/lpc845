@@ -2,5 +2,5 @@
 
 El microcontrolador LPC845 es una pequeña familia de la compañia de NXP, donde el procesador es un ARM CORTEX M0+ contiene varios perifericos de comunicacion tales como son:
 
-![Imagen de Robot](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc800-cortex-m0-plus-/low-cost-microcontrollers-mcus-based-on-arm-cortex-m0-plus-cores:LPC84X#nogo?v=4&s=100)
+<a href="https://www.nxp.com/assets/images/en/block-diagrams/LPC84x-MCU-FAMILY-BD.jpg" alt="LPC84x" border="0"></a>
 
