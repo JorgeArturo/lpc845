@@ -41,5 +41,7 @@ Los comandos de Inicializacion que se utiliza en el codigo principal del LPC845 
 * AT+CIPSERVER=1,80\r\n : Iniciamos el servidor web (HTTP) en el puerto 80
 * AT+CIPSTO=30\r\n : Si el cliente se conecta solamente estara disponible por 30 segundos la conexion
 
-<!DOCTYPE html> <html> <head> <title>ESP8266 WebServer</title> </head> <center><h2>Tutorial Simple para controlar una salida</h2></center> <form>LED0: <button name=\"LED\" value=\"ON0\" type=\"submit\">LED ON</button> <button name=\"LED\" value=\"OFF0\" type=\"submit\">LED OFF</button><br><br> </form> </html>
+Ahora bien, la pagina que vallamos a utilizar se encuentra almacenada en el lpc845 como un arreglo, cuando el cliente entra a la IP del servidor en algun navegador, se enviara la pagina como una respuesta.
+
+
 
