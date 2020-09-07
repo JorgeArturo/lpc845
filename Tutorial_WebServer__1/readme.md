@@ -13,10 +13,10 @@ La tarjeta LPC845-BRK contiene lo necesario para iniciar la programacion y depur
 *Conexion para medir el consumo
 *un programador y depurador
 
-<a href="https://www.nxp.com/assets/images/en/dev-board-image"><img src="https://www.nxp.com/assets/images/en/dev-board-image/LPC845-BRK-1.JPG" alt="LPC845-BRK-1.JPG" border="0"></a>
-<a href="https://www.nxp.com/assets/images/en/block-diagrams"><img src="https://www.nxp.com/assets/images/en/block-diagrams/LPC845-BRK-BD2.png" alt="LPC845-BRK-BD2.png.JPG" border="0"></a>
+<a href="https://www.nxp.com/assets/images/en/dev-board-image"><img src="https://www.nxp.com/assets/images/en/dev-board-image/LPC845-BRK-1.JPG" alt="LPC845-BRK-1.JPG" border="0" width="50%" height="50%"></a>
+<a href="https://www.nxp.com/assets/images/en/block-diagrams"><img src="https://www.nxp.com/assets/images/en/block-diagrams/LPC845-BRK-BD2.png" alt="LPC845-BRK-BD2.png.JPG" border="0" width="50%" height="50%"></a>
 
 ## ESP8266
 
-<a href="https://upload.wikimedia.org/wikipedia/commons/8/84"><img src="https://upload.wikimedia.org/wikipedia/commons/8/84/ESP-01.jpg" alt="ESP-01.jpg" border="0"></a>
+<a href="https://upload.wikimedia.org/wikipedia/commons/8/84"><img src="https://upload.wikimedia.org/wikipedia/commons/8/84/ESP-01.jpg" alt="ESP-01.jpg" border="0" width="50%" height="50%"></a>
 
