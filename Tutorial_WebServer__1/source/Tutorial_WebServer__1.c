@@ -42,7 +42,7 @@
 #include <string.h>
 /* TODO: insert other include files here. */
 
-const char wp[] = {"<!DOCTYPE html> <html> <head> <title>ESP8266 WebServer</title> </head> <center><h2>Tutorial Simple para controlar una salida</h2></center> <form> LED0: <button name=\"LED\" value=\"ON0\" type=\"submit\">LED ON</button> <button name=\"LED\" value=\"OFF0\" type=\"submit\">LED OFF</button><br><br> </form> </html>\0"};
+const char wp[] = {"<!DOCTYPE html> <html> <head> <title>ESP8266 WebServer</title> </head> <center><h2>Tutorial Simple para controlar una salida</h2></center> <form>LED0: <button name=\"LED\" value=\"ON0\" type=\"submit\">LED ON</button> <button name=\"LED\" value=\"OFF0\" type=\"submit\">LED OFF</button><br><br> </form> </html>\0"};
 
 
 unsigned int wp_len;
@@ -184,7 +184,7 @@ void ESP8266_WebServer(void){
 	token = strtok(r,",\r\n");
 
 	while(token != NULL){
-		if(strncmp(token,"+IPD",4) == 0)
+		if(strcmp(token,"+IPD") == 0)
 			break;
 
 		token = strtok(NULL,",\r\n");
@@ -210,9 +210,8 @@ void ESP8266_WebServer(void){
 
 		if(strncmp(ret,"/?LED=ON0",9) == 0)
 			LED_GREEN_ON();
-		if(strncmp(ret,"/?LED=OFF0",10) == 0)
+		else if(strncmp(ret,"/?LED=OFF0",10) == 0)
 			LED_GREEN_OFF();
-
 
 		//END CODE
 
@@ -279,6 +278,7 @@ int main(void) {
 
 
     LED_GREEN_INIT(true);
+
 
     PRINTF("Esp8266 WEBserver\n");
 
