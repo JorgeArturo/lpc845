@@ -85,14 +85,17 @@ int main(void) {
 
     PRINTF("Request RX USART0\n");
 
-    //DMA_StartTransfer(&DMA0_CH0_Handle);
-
     DMA_StartTransfer(&DMA0_CH0_Handle);
 
     /* Force the counter to be placed into memory. */
     volatile static int i = 0 ;
     /* Enter an infinite loop, just incrementing a counter. */
     while(1) {
+
+    	/*
+    	* Si ha terminado la transferencia de los bytes de recepcion
+    	* Activa la transferencia de Memoria a periferico de USART0->TX
+    	*/
 
         if(rx0_dma_done){
 
@@ -101,6 +104,12 @@ int main(void) {
         	DMA_StartTransfer(&DMA0_CH1_Handle);
 
         }
+
+    	/*
+    	* Si ha terminado la transferencia de Periferico a Memoria usando el USART0->TX
+    	* Nuevamente Activa la peticion de recepcion de datos
+    	*/
+
         if(tx0_dma_done){
 
         	tx0_dma_done = 0;
