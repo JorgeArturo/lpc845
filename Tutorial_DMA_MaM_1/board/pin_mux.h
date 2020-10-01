@@ -25,38 +25,12 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
-/*!
- * @brief IOCONCLKDIV0 */
-#define IOCON_PIO_CLKDIV0 0x00u
-/*!
- * @brief Enable hysteresis */
-#define IOCON_PIO_HYS_EN 0x20u
-/*!
- * @brief Input not invert */
-#define IOCON_PIO_INV_DI 0x00u
-/*!
- * @brief Selects pull-up function */
-#define IOCON_PIO_MODE_PULLUP 0x10u
-/*!
- * @brief Disables Open-drain function */
-#define IOCON_PIO_OD_DI 0x00u
-/*!
- * @brief Bypass input filter */
-#define IOCON_PIO_SMODE_BYPASS 0x00u
-/*!
- * @brief
- * Selects function mode (on-chip pull-up/pull-down resistor control).
- * : Inactive.
- * Inactive (no pull-down/pull-up resistor enabled).
- */
-#define PIO0_0_MODE_INACTIVE 0x00u
-/*!
- * @brief
- * Selects function mode (on-chip pull-up/pull-down resistor control).
- * : Inactive.
- * Inactive (no pull-down/pull-up resistor enabled).
- */
-#define PIO0_1_MODE_INACTIVE 0x00u
+#define IOCON_PIO_CLKDIV0 0x00u      /*!<@brief IOCONCLKDIV0 */
+#define IOCON_PIO_HYS_EN 0x20u       /*!<@brief Enable hysteresis */
+#define IOCON_PIO_INV_DI 0x00u       /*!<@brief Input not invert */
+#define IOCON_PIO_MODE_PULLUP 0x10u  /*!<@brief Selects pull-up function */
+#define IOCON_PIO_OD_DI 0x00u        /*!<@brief Disables Open-drain function */
+#define IOCON_PIO_SMODE_BYPASS 0x00u /*!<@brief Bypass input filter */
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.

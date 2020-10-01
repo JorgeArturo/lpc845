@@ -50,8 +50,8 @@ BOARD_InitSWD_DEBUGPins:
     clkdiv: div0}
   - {pin_num: '10', peripheral: SWD, signal: SWDIO, pin_signal: SWDIO/PIO0_2, mode: pullUp, invert: disabled, hysteresis: enabled, opendrain: disabled, smode: bypass,
     clkdiv: div0}
-  - {pin_num: '36', peripheral: USART1, signal: RXD, pin_signal: PIO0_0/ACMP_I1}
-  - {pin_num: '24', peripheral: USART1, signal: TXD, pin_signal: PIO0_1/ACMP_I2/CLKIN}
+  - {pin_num: '36', peripheral: USART1, signal: RXD, pin_signal: PIO0_0/ACMP_I1, mode: inactive}
+  - {pin_num: '24', peripheral: USART1, signal: TXD, pin_signal: PIO0_1/ACMP_I2/CLKIN, mode: inactive}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 /* clang-format on */
@@ -69,6 +69,22 @@ void BOARD_InitSWD_DEBUGPins(void)
     CLOCK_EnableClock(kCLOCK_Iocon);
     /* Enables clock for switch matrix.: enable */
     CLOCK_EnableClock(kCLOCK_Swm);
+
+    IOCON->PIO[17] = ((IOCON->PIO[17] &
+                       /* Mask bits to zero which are setting */
+                       (~(IOCON_PIO_MODE_MASK)))
+
+                      /* Selects function mode (on-chip pull-up/pull-down resistor control).: Inactive. Inactive (no
+                       * pull-down/pull-up resistor enabled). */
+                      | IOCON_PIO_MODE(PIO0_0_MODE_INACTIVE));
+
+    IOCON->PIO[11] = ((IOCON->PIO[11] &
+                       /* Mask bits to zero which are setting */
+                       (~(IOCON_PIO_MODE_MASK)))
+
+                      /* Selects function mode (on-chip pull-up/pull-down resistor control).: Inactive. Inactive (no
+                       * pull-down/pull-up resistor enabled). */
+                      | IOCON_PIO_MODE(PIO0_1_MODE_INACTIVE));
 
     const uint32_t IOCON_INDEX_PIO0_2_config = (/* Selects pull-up function */
                                                 IOCON_PIO_MODE_PULLUP |

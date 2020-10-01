@@ -29,7 +29,7 @@
  */
  
 /**
- * @file    Tutorial_1_DMA_2.c
+ * @file    Tutorial_DMA_MaM_1.c
  * @brief   Application entry point.
  */
 #include <stdio.h>
@@ -38,52 +38,31 @@
 #include "pin_mux.h"
 #include "clock_config.h"
 #include "LPC845.h"
-#include "fsl_inputmux.h"
-#include "fsl_power.h"
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 
-adc_result_info_t dstAddr[3];
-uint8_t srcAddr[6];
+uint8_t SrcAddr = 0xEE;
+uint8_t DstAddr = 0x00;
 
-uint32_t RunSEQ = 0;
-
-enum{RunADC = 10,WaitADC,ProcessADC,SendData,Delay};
-
-typedef struct FLAGS_DMA{
-
-	unsigned flag_adc:1;
-	unsigned flag_tx:1;
-	unsigned spare2:1;
-	unsigned spare3:1;
-	unsigned spare4:1;
-	unsigned spare5:1;
-	unsigned spare6:1;
-	unsigned spare7:1;
-
-}flags_dma;
-
-flags_dma flags;
+uint8_t Tdone = false;
 
 /* TODO: insert other definitions and declarations here. */
 
-void Callback_DMA0_CH1(struct _dma_handle *handle, void *param, bool transferDone, uint32_t tcds){
+void Callback_DMA_Ch0(struct _dma_handle *handler, void *UserData, bool done, uint32_t tcds){
+
 
 	if(tcds == kDMA_IntA){
 
-		flags.flag_tx = 1;
+		Tdone = true;
 
 	}
 
 }
 
-
 /*
  * @brief   Application entry point.
  */
 int main(void) {
-
-	POWER_DisablePD(kPDRUNCFG_PD_ADC0);
 
   	/* Init board hardware. */
     BOARD_InitBootPins();
@@ -94,83 +73,17 @@ int main(void) {
     BOARD_InitDebugConsole();
 #endif
 
+    PRINTF("Src = 0x%X Dst = 0x%X\r\n",SrcAddr,DstAddr);
 
-    PRINTF("Data transfer ADC->Memory->Process->TX1\n");
+    DMA_StartTransfer(&DMA0_CH0_Handle);
 
-    while(GETCHAR()!='c');
+    while(!Tdone);
+    Tdone = false;
 
-    RunSEQ = RunADC;
+    PRINTF("Src = 0x%X Dst = 0x%X\r\n",SrcAddr,DstAddr);
 
     /* Enter an infinite loop, just incrementing a counter. */
     while(1) {
-
-    	switch(RunSEQ){
-
-			case RunADC:
-
-				ADC_DoSoftwareTriggerConvSeqA(ADC0_PERIPHERAL);
-
-				RunSEQ = WaitADC;
-
-				break;
-
-			case WaitADC:
-
-				if((ADC_GetStatusFlags(ADC0_PERIPHERAL)&kADC_ConvSeqAInterruptFlag) == kADC_ConvSeqAInterruptFlag){
-
-					RunSEQ = ProcessADC;
-
-				}else
-					RunSEQ = WaitADC;
-
-				break;
-
-			case ProcessADC:
-
-				ADC_GetChannelConversionResult(ADC0_PERIPHERAL,1,&dstAddr[0]);
-				ADC_GetChannelConversionResult(ADC0_PERIPHERAL,2,&dstAddr[1]);
-				ADC_GetChannelConversionResult(ADC0_PERIPHERAL,3,&dstAddr[2]);
-
-				srcAddr[0] = (uint8_t)dstAddr[0].result;
-				srcAddr[1] = (dstAddr[0].result >> 8) & 0x0F;
-
-				srcAddr[2] = (uint8_t)dstAddr[1].result;
-				srcAddr[3] = (dstAddr[1].result >> 8) & 0x0F;
-
-				srcAddr[4] = (uint8_t)dstAddr[2].result;
-				srcAddr[5] = (dstAddr[2].result >> 8) & 0x0F;
-
-				DMA_StartTransfer(&DMA0_CH1_Handle);
-				RunSEQ = SendData;
-
-				break;
-
-			case SendData:
-
-				if(flags.flag_tx){
-
-					flags.flag_tx = 0;
-					RunSEQ = Delay;
-
-				}else
-					RunSEQ = SendData;
-
-				break;
-
-			case Delay:
-
-				for(uint32_t t = 200000;t>0;t--);
-				RunSEQ = RunADC;
-
-				break;
-
-			default:
-
-				break;
-
-
-    	}
-
 
     }
     return 0 ;

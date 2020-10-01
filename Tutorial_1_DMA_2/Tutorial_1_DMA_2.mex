@@ -85,9 +85,21 @@
                         <pin_feature name="clkdiv" value="div0"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="ADC0" signal="CH, 1" pin_num="34" pin_signal="PIO0_6/ADC_1/ACMPVREF"/>
-                  <pin peripheral="ADC0" signal="CH, 2" pin_num="37" pin_signal="PIO0_14/ACMP_I3/ADC_2"/>
-                  <pin peripheral="ADC0" signal="CH, 3" pin_num="39" pin_signal="PIO0_23/ADC_3/ACMP_I4"/>
+                  <pin peripheral="ADC0" signal="CH, 1" pin_num="34" pin_signal="PIO0_6/ADC_1/ACMPVREF">
+                     <pin_features>
+                        <pin_feature name="mode" value="inactive"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="ADC0" signal="CH, 2" pin_num="37" pin_signal="PIO0_14/ACMP_I3/ADC_2">
+                     <pin_features>
+                        <pin_feature name="mode" value="inactive"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="ADC0" signal="CH, 3" pin_num="39" pin_signal="PIO0_23/ADC_3/ACMP_I4">
+                     <pin_features>
+                        <pin_feature name="mode" value="inactive"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
             <function name="BOARD_InitBUTTONsPins">
