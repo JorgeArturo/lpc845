@@ -41,8 +41,8 @@
 #include "fsl_debug_console.h"
 /* TODO: insert other include files here. */
 
-uint8_t SrcAddr = 0xEE;
-uint8_t DstAddr = 0x00;
+uint8_t SrcAddr[11] = "Hola mundo\0";
+uint8_t DstAddr[11];
 
 uint8_t Tdone = false;
 
@@ -73,14 +73,14 @@ int main(void) {
     BOARD_InitDebugConsole();
 #endif
 
-    PRINTF("Src = 0x%X Dst = 0x%X\r\n",SrcAddr,DstAddr);
+    PRINTF("Src = %s Dst = %s\r\n",SrcAddr,DstAddr);
 
     DMA_StartTransfer(&DMA0_CH0_Handle);
 
     while(!Tdone);
     Tdone = false;
 
-    PRINTF("Src = 0x%X Dst = 0x%X\r\n",SrcAddr,DstAddr);
+    PRINTF("Src = %s Dst = %s\r\n",SrcAddr,DstAddr);
 
     /* Enter an infinite loop, just incrementing a counter. */
     while(1) {

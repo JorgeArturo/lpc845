@@ -460,19 +460,19 @@
                                        <setting name="intA" value="true"/>
                                        <setting name="intB" value="false"/>
                                        <setting name="width" value="kDMA_Transfer8BitWidth"/>
-                                       <setting name="srcInc" value="kDMA_AddressInterleave0xWidth"/>
-                                       <setting name="dstInc" value="kDMA_AddressInterleave0xWidth"/>
-                                       <setting name="transBytes" value="1"/>
+                                       <setting name="srcInc" value="kDMA_AddressInterleave1xWidth"/>
+                                       <setting name="dstInc" value="kDMA_AddressInterleave1xWidth"/>
+                                       <setting name="transBytes" value="10"/>
                                     </struct>
                                     <struct name="srcAddr">
                                        <setting name="addrType" value="startAddr"/>
-                                       <setting name="addr_expr" value="&amp;SrcAddr"/>
-                                       <setting name="addr_def" value="uint8_t SrcAddr"/>
+                                       <setting name="addr_expr" value="&amp;SrcAddr[0]"/>
+                                       <setting name="addr_def" value="uint8_t SrcAddr[11]"/>
                                     </struct>
                                     <struct name="dstAddr">
                                        <setting name="addrType" value="startAddr"/>
-                                       <setting name="addr_expr" value="&amp;DstAddr"/>
-                                       <setting name="addr_def" value="uint8_t DstAddr"/>
+                                       <setting name="addr_expr" value="&amp;DstAddr[0]"/>
+                                       <setting name="addr_def" value="uint8_t DstAddr[11]"/>
                                     </struct>
                                  </struct>
                               </array>

@@ -83,17 +83,17 @@ instance:
               - intA: 'true'
               - intB: 'false'
               - width: 'kDMA_Transfer8BitWidth'
-              - srcInc: 'kDMA_AddressInterleave0xWidth'
-              - dstInc: 'kDMA_AddressInterleave0xWidth'
-              - transBytes: '1'
+              - srcInc: 'kDMA_AddressInterleave1xWidth'
+              - dstInc: 'kDMA_AddressInterleave1xWidth'
+              - transBytes: '10'
             - srcAddr:
               - addrType: 'startAddr'
-              - addr_expr: '&SrcAddr'
-              - addr_def: 'uint8_t SrcAddr'
+              - addr_expr: '&SrcAddr[0]'
+              - addr_def: 'uint8_t SrcAddr[11]'
             - dstAddr:
               - addrType: 'startAddr'
-              - addr_expr: '&DstAddr'
-              - addr_def: 'uint8_t DstAddr'
+              - addr_expr: '&DstAddr[0]'
+              - addr_def: 'uint8_t DstAddr[11]'
         - allocateTCD: 'noncache'
         - initTCD: 'CH0_TCD0'
     - dma_interrupt_trans:
@@ -107,15 +107,15 @@ instance:
   /* Channel CH0 global variables */
 dma_handle_t DMA0_CH0_Handle;
 /* CH0_TCD0 source address extern definition */
-extern uint8_t SrcAddr;
+extern uint8_t SrcAddr[11];
 /* CH0_TCD0 destination address extern definition */
-extern uint8_t DstAddr;
+extern uint8_t DstAddr[11];
 AT_NONCACHEABLE_SECTION_ALIGN( dma_descriptor_t DMA0_CH0_TCDs_config[1], FSL_FEATURE_DMA_LINK_DESCRIPTOR_ALIGN_SIZE )
  = {
   {
-    .xfercfg = DMA_CHANNEL_XFER(true, true, true, false, kDMA_Transfer8BitWidth, kDMA_AddressInterleave0xWidth, kDMA_AddressInterleave0xWidth, 1U),
-    .srcEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&SrcAddr, (uint32_t)kDMA_AddressInterleave0xWidth, 1U, (uint32_t)kDMA_Transfer8BitWidth),
-    .dstEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&DstAddr, (uint32_t)kDMA_AddressInterleave0xWidth, 1U, (uint32_t)kDMA_Transfer8BitWidth),
+    .xfercfg = DMA_CHANNEL_XFER(true, true, true, false, kDMA_Transfer8BitWidth, kDMA_AddressInterleave1xWidth, kDMA_AddressInterleave1xWidth, 10U),
+    .srcEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&SrcAddr[0], (uint32_t)kDMA_AddressInterleave1xWidth, 10U, (uint32_t)kDMA_Transfer8BitWidth),
+    .dstEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&DstAddr[0], (uint32_t)kDMA_AddressInterleave1xWidth, 10U, (uint32_t)kDMA_Transfer8BitWidth),
     .linkToNextDesc = &DMA0_CH0_TCD0_config
   }
 };
