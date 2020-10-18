@@ -59,11 +59,11 @@ instance:
         - apiMode: 'trans'
         - dma_channel:
           - channel_prefix_id: 'CH0'
-          - DMA_source: 'kDmaRequestUSART0_RX_DMA '
+          - DMA_source: 'kDmaRequestUSART1_RX_DMA '
           - init_channel_priority: 'false'
           - dma_priority: 'kDMA_ChannelPriority0'
           - enable_custom_name: 'false'
-        - peripheral_request: 'false'
+        - peripheral_request: 'true'
         - init_trigger_config: 'false'
         - trigger_config:
           - type: 'kDMA_NoTrigger'
@@ -83,13 +83,13 @@ instance:
               - intA: 'true'
               - intB: 'false'
               - width: 'kDMA_Transfer8BitWidth'
-              - srcInc: 'kDMA_AddressInterleave1xWidth'
+              - srcInc: 'kDMA_AddressInterleave0xWidth'
               - dstInc: 'kDMA_AddressInterleave1xWidth'
               - transBytes: '10'
             - srcAddr:
               - addrType: 'startAddr'
-              - addr_expr: '&SrcAddr[0]'
-              - addr_def: 'uint8_t SrcAddr[11]'
+              - addr_expr: '&USART1-:RXDAT'
+              - addr_def: ''
             - dstAddr:
               - addrType: 'startAddr'
               - addr_expr: '&DstAddr[0]'
@@ -106,15 +106,13 @@ instance:
 
   /* Channel CH0 global variables */
 dma_handle_t DMA0_CH0_Handle;
-/* CH0_TCD0 source address extern definition */
-extern uint8_t SrcAddr[11];
 /* CH0_TCD0 destination address extern definition */
 extern uint8_t DstAddr[11];
 AT_NONCACHEABLE_SECTION_ALIGN( dma_descriptor_t DMA0_CH0_TCDs_config[1], FSL_FEATURE_DMA_LINK_DESCRIPTOR_ALIGN_SIZE )
  = {
   {
-    .xfercfg = DMA_CHANNEL_XFER(true, true, true, false, kDMA_Transfer8BitWidth, kDMA_AddressInterleave1xWidth, kDMA_AddressInterleave1xWidth, 10U),
-    .srcEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&SrcAddr[0], (uint32_t)kDMA_AddressInterleave1xWidth, 10U, (uint32_t)kDMA_Transfer8BitWidth),
+    .xfercfg = DMA_CHANNEL_XFER(true, true, true, false, kDMA_Transfer8BitWidth, kDMA_AddressInterleave0xWidth, kDMA_AddressInterleave1xWidth, 10U),
+    .srcEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&USART1->RXDAT, (uint32_t)kDMA_AddressInterleave0xWidth, 10U, (uint32_t)kDMA_Transfer8BitWidth),
     .dstEndAddr = (void *)DMA_DESCRIPTOR_END_ADDRESS(&DstAddr[0], (uint32_t)kDMA_AddressInterleave1xWidth, 10U, (uint32_t)kDMA_Transfer8BitWidth),
     .linkToNextDesc = &DMA0_CH0_TCD0_config
   }
@@ -123,13 +121,62 @@ AT_NONCACHEABLE_SECTION_ALIGN( dma_descriptor_t DMA0_CH0_TCDs_config[1], FSL_FEA
 static void DMA0_init(void) {
 
   /* Channel CH0 initialization */
-  /* Enable the DMA 0channel in the DMA */
+  /* Enable the DMA 2channel in the DMA */
   DMA_EnableChannel(DMA0_DMA_BASEADDR, DMA0_CH0_DMA_CHANNEL);
   /* Create the DMA DMA0_CH0_Handlehandle */
   DMA_CreateHandle(&DMA0_CH0_Handle, DMA0_DMA_BASEADDR, DMA0_CH0_DMA_CHANNEL);
   DMA_SetCallback(&DMA0_CH0_Handle, Callback_DMA_Ch0, NULL);
+  DMA_EnableChannelPeriphRq(DMA0_DMA_BASEADDR, DMA0_CH0_DMA_CHANNEL);
   /* DMA0 transfer submit */
   DMA_SubmitChannelDescriptor(&DMA0_CH0_Handle, &DMA0_CH0_TCD0_config);
+}
+
+/***********************************************************************************************************************
+ * USART1 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'USART1'
+- type: 'lpc_miniusart'
+- mode: 'polling'
+- custom_name_enabled: 'false'
+- type_id: 'lpc_miniusart_d84319ec2ca0cfec3b3de86986cd7d44'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'USART1'
+- config_sets:
+  - fsl_usart:
+    - usartConfig:
+      - clockSource: 'FunctionClock'
+      - clockSourceFreq: 'BOARD_BootClockFRO30M'
+      - baudRate_Bps: '115200'
+      - syncMode: 'kUSART_SyncModeDisabled'
+      - parityMode: 'kUSART_ParityDisabled'
+      - stopBitCount: 'kUSART_OneStopBit'
+      - bitCountPerChar: 'kUSART_8BitsPerChar'
+      - loopback: 'false'
+      - enableRx: 'true'
+      - enableTx: 'true'
+      - clockPolarity: 'kUSART_RxSampleOnFallingEdge'
+      - enableContinuousSCLK: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const usart_config_t USART1_config = {
+  .baudRate_Bps = 115200,
+  .syncMode = kUSART_SyncModeDisabled,
+  .parityMode = kUSART_ParityDisabled,
+  .stopBitCount = kUSART_OneStopBit,
+  .bitCountPerChar = kUSART_8BitsPerChar,
+  .loopback = false,
+  .enableRx = true,
+  .enableTx = true,
+  .clockPolarity = kUSART_RxSampleOnFallingEdge,
+  .enableContinuousSCLK = false
+};
+
+static void USART1_init(void) {
+  /* USART1 peripheral initialization */
+  USART_Init(USART1_PERIPHERAL, &USART1_config, USART1_CLOCK_SOURCE);
 }
 
 /***********************************************************************************************************************
@@ -142,6 +189,7 @@ void BOARD_InitPeripherals(void)
 
   /* Initialize components */
   DMA0_init();
+  USART1_init();
 }
 
 /***********************************************************************************************************************

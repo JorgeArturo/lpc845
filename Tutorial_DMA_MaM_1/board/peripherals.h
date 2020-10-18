@@ -10,6 +10,9 @@
  * Included files
  **********************************************************************************************************************/
 #include "fsl_dma.h"
+#include "fsl_common.h"
+#include "fsl_usart.h"
+#include "fsl_clock.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -26,9 +29,14 @@ extern "C" {
 
   /* Channel CH0 definitions */
 /* Selected DMA channel number. */
-#define DMA0_CH0_DMA_CHANNEL 0
+#define DMA0_CH0_DMA_CHANNEL 2
 /* TCD structure index 0 definition */
 #define DMA0_CH0_TCD0_config DMA0_CH0_TCDs_config[0]
+/* BOARD_InitPeripherals defines for USART1 */
+/* Definition of peripheral ID */
+#define USART1_PERIPHERAL ((USART_Type *)USART1)
+/* Definition of the clock source frequency */
+#define USART1_CLOCK_SOURCE 30000000UL
 
 /***********************************************************************************************************************
  * Global variables
@@ -36,11 +44,12 @@ extern "C" {
 extern dma_handle_t DMA0_CH0_Handle;
 /* DMA0 channel CH0 TCD array */
 extern dma_descriptor_t DMA0_CH0_TCDs_config[1];
+extern const usart_config_t USART1_config;
 
 /***********************************************************************************************************************
  * Callback functions
  **********************************************************************************************************************/
-/* DMA callback function for the 0 channel.*/
+/* DMA callback function for the 2 channel.*/
 extern void Callback_DMA_Ch0(struct _dma_handle *, void *, bool, uint32_t);
 
 /***********************************************************************************************************************

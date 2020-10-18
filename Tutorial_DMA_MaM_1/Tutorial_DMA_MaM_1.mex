@@ -43,6 +43,11 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="USART1" description="Peripheral USART1 is not initialized" problem_level="1" source="Pins:BOARD_InitSWD_DEBUGPins">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD_InitSWD_DEBUGPins">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
@@ -78,6 +83,16 @@
                         <pin_feature name="opendrain" value="disabled"/>
                         <pin_feature name="smode" value="bypass"/>
                         <pin_feature name="clkdiv" value="div0"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USART1" signal="RXD" pin_num="36" pin_signal="PIO0_0/ACMP_I1">
+                     <pin_features>
+                        <pin_feature name="mode" value="inactive"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USART1" signal="TXD" pin_num="24" pin_signal="PIO0_1/ACMP_I2/CLKIN">
+                     <pin_features>
+                        <pin_feature name="mode" value="inactive"/>
                      </pin_features>
                   </pin>
                </pins>
@@ -334,6 +349,7 @@
                   <clock_output id="FROHF_clock.outFreq" value="30 MHz" locked="false" accuracy=""/>
                   <clock_output id="LowPower_clock.outFreq" value="10 kHz" locked="false" accuracy=""/>
                   <clock_output id="System_clock.outFreq" value="30 MHz" locked="false" accuracy=""/>
+                  <clock_output id="UART1_clock.outFreq" value="30 MHz" locked="false" accuracy=""/>
                   <clock_output id="divto750k_clock.outFreq" value="750 kHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
@@ -343,6 +359,7 @@
                   <setting id="SYSCON.FRG1CLKSEL.sel" value="NO_CLOCK" locked="false"/>
                   <setting id="SYSCON.FRO_DIRECT.sel" value="SYSCON.fro_osc" locked="false"/>
                   <setting id="SYSCON.SCTCLKSEL.sel" value="NO_CLOCK" locked="false"/>
+                  <setting id="SYSCON.UART1CLKSEL.sel" value="SYSCON.MAINCLKPLLSEL" locked="false"/>
                   <setting id="SYSCON_PDRUNCFG0_PDEN_PLL_CFG" value="Power_down" locked="false"/>
                </clock_settings>
                <called_from_default_init>true</called_from_default_init>
@@ -409,6 +426,16 @@
                   <data type="Version">2.4.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpc_miniusart" description="Usart Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpc_miniusart" description="Unsupported version of the Usart Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="greaterOrEqual">
+                  <data type="Version">2.1.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/peripherals.c" update_enabled="true"/>
@@ -421,7 +448,23 @@
             <functional_group name="BOARD_InitPeripherals" uuid="1406be57-7245-4d7f-91e2-39013f06b36b" called_from_default_init="true" id_prefix="" core="core0">
                <description></description>
                <options/>
-               <dependencies/>
+               <dependencies>
+                  <dependency resourceType="ClockOutput" resourceId="UART1_clock" description="UART1 clock is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="USART1.usart_rxd" description="Signal RXD of the peripheral USART1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="USART1.usart_txd" description="Signal TXD of the peripheral USART1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+               </dependencies>
                <instances>
                   <instance name="DMA0" uuid="a0b223e7-d362-47a3-a049-63a47ea3b14b" type="lpc_dma" type_id="lpc_dma_c13ca997a68f2ca6c666916ba13db7d7" mode="basic" peripheral="DMA0" enabled="true" comment="" custom_name_enabled="false">
                      <config_set name="fsl_dma">
@@ -433,12 +476,12 @@
                               <setting name="apiMode" value="trans"/>
                               <struct name="dma_channel">
                                  <setting name="channel_prefix_id" value="CH0"/>
-                                 <setting name="DMA_source" value="kDmaRequestUSART0_RX_DMA "/>
+                                 <setting name="DMA_source" value="kDmaRequestUSART1_RX_DMA "/>
                                  <setting name="init_channel_priority" value="false"/>
                                  <setting name="dma_priority" value="kDMA_ChannelPriority0"/>
                                  <setting name="enable_custom_name" value="false"/>
                               </struct>
-                              <setting name="peripheral_request" value="false"/>
+                              <setting name="peripheral_request" value="true"/>
                               <setting name="init_trigger_config" value="false"/>
                               <struct name="trigger_config">
                                  <setting name="type" value="kDMA_NoTrigger"/>
@@ -460,14 +503,14 @@
                                        <setting name="intA" value="true"/>
                                        <setting name="intB" value="false"/>
                                        <setting name="width" value="kDMA_Transfer8BitWidth"/>
-                                       <setting name="srcInc" value="kDMA_AddressInterleave1xWidth"/>
+                                       <setting name="srcInc" value="kDMA_AddressInterleave0xWidth"/>
                                        <setting name="dstInc" value="kDMA_AddressInterleave1xWidth"/>
                                        <setting name="transBytes" value="10"/>
                                     </struct>
                                     <struct name="srcAddr">
                                        <setting name="addrType" value="startAddr"/>
-                                       <setting name="addr_expr" value="&amp;SrcAddr[0]"/>
-                                       <setting name="addr_def" value="uint8_t SrcAddr[11]"/>
+                                       <setting name="addr_expr" value="&amp;USART1-&gt;RXDAT"/>
+                                       <setting name="addr_def" value=""/>
                                     </struct>
                                     <struct name="dstAddr">
                                        <setting name="addrType" value="startAddr"/>
@@ -485,6 +528,24 @@
                            <setting name="enable_interrrupt" value="enabled"/>
                            <setting name="enable_priority" value="false"/>
                            <setting name="priority" value="0"/>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="USART1" uuid="74c108c1-2208-4655-abe2-8f40452b8067" type="lpc_miniusart" type_id="lpc_miniusart_d84319ec2ca0cfec3b3de86986cd7d44" mode="polling" peripheral="USART1" enabled="true" comment="" custom_name_enabled="false">
+                     <config_set name="fsl_usart">
+                        <struct name="usartConfig">
+                           <setting name="clockSource" value="FunctionClock"/>
+                           <setting name="clockSourceFreq" value="BOARD_BootClockFRO30M"/>
+                           <setting name="baudRate_Bps" value="115200"/>
+                           <setting name="syncMode" value="kUSART_SyncModeDisabled"/>
+                           <setting name="parityMode" value="kUSART_ParityDisabled"/>
+                           <setting name="stopBitCount" value="kUSART_OneStopBit"/>
+                           <setting name="bitCountPerChar" value="kUSART_8BitsPerChar"/>
+                           <setting name="loopback" value="false"/>
+                           <setting name="enableRx" value="true"/>
+                           <setting name="enableTx" value="true"/>
+                           <setting name="clockPolarity" value="kUSART_RxSampleOnFallingEdge"/>
+                           <setting name="enableContinuousSCLK" value="false"/>
                         </struct>
                      </config_set>
                   </instance>

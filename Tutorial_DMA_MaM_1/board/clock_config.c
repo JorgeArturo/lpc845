@@ -141,6 +141,7 @@ outputs:
 - {id: FROHF_clock.outFreq, value: 30 MHz}
 - {id: LowPower_clock.outFreq, value: 10 kHz}
 - {id: System_clock.outFreq, value: 30 MHz}
+- {id: UART1_clock.outFreq, value: 30 MHz}
 - {id: divto750k_clock.outFreq, value: 750 kHz}
 settings:
 - {id: SYSCON.ADCCLKSEL.sel, value: NO_CLOCK}
@@ -149,6 +150,7 @@ settings:
 - {id: SYSCON.FRG1CLKSEL.sel, value: NO_CLOCK}
 - {id: SYSCON.FRO_DIRECT.sel, value: SYSCON.fro_osc}
 - {id: SYSCON.SCTCLKSEL.sel, value: NO_CLOCK}
+- {id: SYSCON.UART1CLKSEL.sel, value: SYSCON.MAINCLKPLLSEL}
 - {id: SYSCON_PDRUNCFG0_PDEN_PLL_CFG, value: Power_down}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
@@ -169,6 +171,7 @@ void BOARD_BootClockFRO30M(void)
     POWER_DisablePD(kPDRUNCFG_PD_SYSOSC);                  /*!< Ensure Main osc is on */
     CLOCK_Select(kEXT_Clk_From_SysOsc);                     /*!<select external clock source to sys_osc */
     CLOCK_SetMainClkSrc(kCLOCK_MainClkSrcFro);            /*!< select fro for main clock */
+    CLOCK_Select(kUART1_Clk_From_MainClk);                 /*!< select main clk for UART1 */
     CLOCK_SetCoreSysClkDiv(1U);
     /*!< Set SystemCoreClock variable. */
     SystemCoreClock = BOARD_BOOTCLOCKFRO30M_CORE_CLOCK;
